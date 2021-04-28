@@ -5,10 +5,7 @@ import com.dawar.pollapi.dto.OptionCount;
 import com.dawar.pollapi.dto.VoteResult;
 import com.dawar.pollapi.repository.VoteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +16,7 @@ public class ComputeResultService {
     @Autowired
     VoteRepo voteRepository;
 
-    public ResponseEntity<?> computeResult (@RequestParam Long pollId) {
+    public VoteResult computeResult (Long pollId) {
         VoteResult voteResult = new VoteResult();
         Iterable<Vote> allVotes = voteRepository.findByPoll(pollId);
         //algorithm to count votes
@@ -38,6 +35,6 @@ public class ComputeResultService {
             voteResult.settotalVotes(totalVotes);
             voteResult.setResults(tempMap.values());
         }
-        return new ResponseEntity<VoteResult>(voteResult, HttpStatus.OK);
+        return voteResult;
     }
 }
