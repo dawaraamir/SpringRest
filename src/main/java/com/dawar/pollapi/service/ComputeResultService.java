@@ -3,7 +3,6 @@ package com.dawar.pollapi.service;
 import com.dawar.pollapi.domain.Vote;
 import com.dawar.pollapi.dto.OptionCount;
 import com.dawar.pollapi.dto.VoteResult;
-import com.dawar.pollapi.repository.OptionRepo;
 import com.dawar.pollapi.repository.VoteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -2,19 +2,11 @@ package com.dawar.pollapi.controller;
 
 import com.dawar.pollapi.domain.Poll;
 import com.dawar.pollapi.exception.ResourceNotFoundException;
-import com.dawar.pollapi.repository.PollRepo;
 import com.dawar.pollapi.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.inject.Inject;
-import java.net.URI;
-import java.util.Optional;
 
 @RestController
 public class PollController {
