@@ -3,6 +3,7 @@ package com.dawar.pollapi.controller;
 import com.dawar.pollapi.domain.Poll;
 import com.dawar.pollapi.exception.ResourceNotFoundException;
 import com.dawar.pollapi.repository.PollRepo;
+import com.dawar.pollapi.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,55 +19,36 @@ import java.util.Optional;
 @RestController
 public class PollController {
 
-    @Inject
-    private PollRepo pollRepository;
+    @Autowired
+    private PollService pollService;
 
     protected void verifyPoll(Long pollId) throws ResourceNotFoundException {
-        Optional<Poll> poll = pollRepository.findById(pollId);
-        if(pollRepository.existsById(pollId) == false) {
-            throw new ResourceNotFoundException("Poll with id " + pollId + " not found");
-        }
+     pollService.verifyPoll(pollId);
     }
 
     @RequestMapping(value = "/polls", method = RequestMethod.GET)
     public ResponseEntity<Iterable<Poll>> getAllPolls() {
-        Iterable<Poll> allPolls = pollRepository.findAll();
-        return new ResponseEntity<>(pollRepository.findAll(), HttpStatus.OK);
+       return pollService.getAllPolls();
     }
 
     @RequestMapping(value = "/polls", method = RequestMethod.POST)
     public ResponseEntity<?> createPoll(@Validated @RequestBody Poll poll) {
-        poll = pollRepository.save(poll);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        URI newPollUri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(poll.getId())
-                .toUri();
-        responseHeaders.setLocation(newPollUri);
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+        return pollService.createPoll(poll);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.GET)
     public ResponseEntity<?> getPoll(@PathVariable Long pollId) {
-        Optional<Poll> p = pollRepository.findById(pollId);
-        verifyPoll(pollId);
-        return new ResponseEntity<>(p, HttpStatus.OK);
+        return pollService.getPoll(pollId);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.PUT)
     public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
-        // Save the entity
-        verifyPoll(pollId);
-        pollRepository.save(poll);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return pollService.updatePoll(poll, pollId);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.DELETE)
     public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
-        verifyPoll(pollId);
-        pollRepository.deleteById(pollId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return pollService.deletePoll(pollId);
     }
 
 }

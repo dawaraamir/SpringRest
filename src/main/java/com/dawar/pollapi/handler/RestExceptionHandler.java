@@ -3,6 +3,7 @@ package com.dawar.pollapi.handler;
 import com.dawar.pollapi.error.ErrorDetail;
 import com.dawar.pollapi.error.ValidationError;
 import com.dawar.pollapi.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ import java.util.List;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @Inject
+    @Autowired
     private MessageSource messageSource;
 
     @Override
